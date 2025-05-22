@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCS机组数据显示</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* 主容器样式（田字布局） */
+       .unit-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        /* 单个机组样式（占50%宽度，实现2行2列） */
+       .unit {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem 2rem;
+            flex-basis: calc(50% - 1rem);
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 机组标题 */
+       .unit h2 {
+            color: #2d3436;
+            font-size: 1.25rem;
+            margin: 0 0 1.5rem 0;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        /* 指标行容器（明确两行布局） */
+       .metric-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+            justify-content: center;
+            width: 100%; /* 确保占满容器宽度 */
+        }
+
+        /* 单个指标样式（固定宽度） */
+       .metric {
+            flex: 0 0 130px; 
+            white-space: nowrap; 
+            color: #495057;
+            font-size: 0.9rem;
+            padding: 0.6rem;
+            background: #f1f3f5;
+            border-radius: 6px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 指标名称强调色 */
+       .metric::before {
+            content: attr(data-name);
+            color: #2c3e50;
+            font-weight: 500;
+            margin-right: 0.4rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="unit-container">
+        <!-- 机组1 -->
+        <div class="unit" id="unit1">
+            <h2>#1机从机</h2>
+            <div class="metric-row" id="unit1Row1"></div>
+            <div class="metric-row" id="unit1Row2"></div>
+        </div>
+
+        <!-- 机组2 -->
+        <div class="unit" id="unit2">
+            <h2>#2机从机</h2>
+            <div class="metric-row" id="unit2Row1"></div>
+            <div class="metric-row" id="unit2Row2"></div>
+        </div>
+
+        <!-- 机组3 -->
+        <div class="unit" id="unit3">
+            <h2>#3机从机</h2>
+            <div class="metric-row" id="unit3Row1"></div>
+            <div class="metric-row" id="unit3Row2"></div>
+        </div>
+
+        <!-- 机组4 -->
+        <div class="unit" id="unit4">
+            <h2>#4机从机</h2>
+            <div class="metric-row" id="unit4Row1"></div>
+            <div class="metric-row" id="unit4Row2"></div>
+        </div>
+    </div>
+
+    <script>
+        // 机组指标配置（名称+单位）
+        const UNIT_CONFIG = [
+            { name: "有功", unit: "MW" },
+            { name: "无功", unit: "MVar" },
+            { name: "主汽温度", unit: "℃" },
+            { name: "主汽压力", unit: "Mpa" },
+            { name: "再热汽温度", unit: "℃" },
+            { name: "再热汽压力", unit: "Mpa" },
+            { name: "Nox", unit: "Mg/m3" },
+            { name: "真空", unit: "Kpa" },
+            { name: "SO2", unit: "Mg/m3" },
+            { name: "民用供热", unit: "t/h" },
+            { name: "粉尘", unit: "Mg/m3" },
+            { name: "东线供汽", unit: "t/h" }
+        ];
+
+        // 生成随机数值（带单位适配）
+        function generateValue(unit) {
+            switch (unit) {
+                case "MW": return `${Math.floor(300 + Math.random() * 50)}`;
+                case "MVar": return `${Math.floor(-20 + Math.random() * 40)}`;
+                case "℃": return `${Math.floor(530 + Math.random() * 20)}`;
+                case "Mpa": return `${(14 + Math.random() * 1).toFixed(1)}`;
+                case "Mg/m3": return `${Math.floor(Math.random() * 25)}`;
+                case "Kpa": return `${(-92.5 + Math.random() * 0.5).toFixed(1)}`;
+                case "t/h": return `${Math.floor(Math.random() * 50)}`;
+                default: return "N/A";
+            }
+        }
+
+        // 更新单个机组显示（严格分两行）
+        function updateUnit(unitId) {
+            const unitElement = document.getElementById(`unit${unitId}`);
+            const values = UNIT_CONFIG.map(item => generateValue(item.unit));
+            
+            // 第一行：前6个指标
+            const row1 = unitElement.querySelector(`#unit${unitId}Row1`);
+            row1.innerHTML = UNIT_CONFIG.slice(0, 6)
+                .map((item, index) => 
+                    `<span class="metric" data-name="${item.name}">${values[index]}${item.unit}</span>`
+                ).join('');
+            
+            // 第二行：后6个指标
+            const row2 = unitElement.querySelector(`#unit${unitId}Row2`);
+            row2.innerHTML = UNIT_CONFIG.slice(6, 12)
+                .map((item, index) => 
+                    `<span class="metric" data-name="${item.name}">${values[6 + index]}${item.unit}</span>`
+                ).join('');
+        }
+
+        // 初始化所有机组并定时更新
+        function init() {
+            for (let i = 1; i <= 4; i++) updateUnit(i);
+            setInterval(() => {
+                for (let i = 1; i <= 4; i++) updateUnit(i);
+            }, 5000);
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+
+</html>
