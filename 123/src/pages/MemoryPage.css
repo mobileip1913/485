@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Song+Myung&family=KaiTi&family=Noto+Sans+SC&display=swap');
+
+.memory-page-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.palace-name {
+  font-family: 'Song Myung', 'SimSun', serif;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.hexagrams-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.hexagram-card {
+  background-color: #F5F5F5;
+  border: 2px solid #5C4033;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.hexagram-name {
+  font-family: 'KaiTi', 'KaiTi_GB2312', serif;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.lines-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.line {
+  width: 60px; /* 调整为图片中更长的线条长度 */
+  height: 3px;
+  background: repeating-linear-gradient(90deg, #000, #000 20px, transparent 20px, transparent 24px); /* 调整虚线间隔更接近图片效果 */
+  position: relative;
+}
+
+.line.yin::after {
+  content: '│';
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #000;
+}
+
+.start-test-btn {
+  background-color: #4CAF50;
+  color: white;
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.start-test-btn:hover {
+  background-color: #45a049;
+}

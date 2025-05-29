@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Song+Myung&family=KaiTi&family=Noto+Sans+SC&display=swap');
+
+test-page-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.palace-name {
+  font-family: 'Song Myung', 'SimSun', serif;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.hexagrams-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.hexagram-test-card {
+  background-color: #F5F5F5;
+  border: 2px solid #5C4033;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.hexagram-name-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 2px solid #5C4033;
+  border-radius: 4px;
+  font-family: 'KaiTi', 'KaiTi_GB2312', serif;
+}
+
+.hexagram-name-input.wrong {
+  border-color: #F44336;
+}
+
+.lines-interaction-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+  .line-btn {
+    width: 60px; /* 调整为图片中更长的线条长度 */
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+  }
+
+.line-btn.yang {
+  border-top: 3px solid #000;
+  width: 60px; /* 统一阳爻线条长度 */
+}
+
+.line-btn.yin {
+  border-top: 3px solid #000;
+  background: repeating-linear-gradient(90deg, #000, #000 22px, transparent 22px, transparent 26px); /* 调整虚线间隔更接近图片效果 */
+  width: 60px; /* 统一阴爻线条长度 */
+}
+
+.line-btn.yin::after {
+  content: '│';
+  position: absolute;
+  left: 50%;
+  top: -7px; /* 调整短竖线位置更居中 */
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #000;
+}
+
+.result-indicator {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.result-indicator.correct {
+  color: #4CAF50;
+}
+
+.result-indicator.wrong {
+  color: #F44336;
+}
+
+.test-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.submit-btn, .retest-btn {
+  background-color: #4CAF50;
+  color: white;
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover, .retest-btn:hover {
+  background-color: #45a049;
+}
